@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Provider Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+</head>
+<body>
+
+<h1>Create new provider</h1>
+<form action="#" th:action="@{/provider}" th:object="${provider}" method="post">
+    <p>Name: <input type="text" th:field="*{name}"/></p>
+    <p>
+        <input type="submit" value="Create"/>
+        <input type="reset" value="Reset"/>
+    </p>
+</form>
+
+<h1>providers</h1>
+<table th:each="provider : ${providers}">
+    <tr>
+        <td th:text="${provider.id}">1</td>
+        <td th:text="${provider.name}">Name ..</td>
+    </tr>
+</table>
+
+</body>
+</html>
