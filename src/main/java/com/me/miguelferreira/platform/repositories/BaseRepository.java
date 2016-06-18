@@ -23,4 +23,12 @@ public class BaseRepository<T extends BaseEntity> implements Repository<T> {
         return new ArrayList<>(entities.values());
     }
 
+    public T find(final String id) {
+        if (entities.containsKey(id)) {
+            return entities.get(id);
+        } else {
+            throw new RuntimeException("Entity ID " + id + " not found.");
+        }
+    }
+
 }

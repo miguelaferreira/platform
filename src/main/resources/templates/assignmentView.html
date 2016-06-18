@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Assignment Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 300px;
+            width: 80%;
+            margin: 10px 10px 10px 10px;
+        }
+
+        #location {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Create new assignment</h1>
+<form action="#" th:action="@{/assignment}" th:object="${assignment}" method="post">
+    <p>Requester:
+        <select th:field="*{requester.id}">
+            <option value="NONE">---- Select ----</option>
+            <option th:each="requester : ${requesters}"
+                    th:value="${requester.id}"
+                    th:text="${requester.name}">
+                Requester ..
+            </option>
+        </select>
+    </p>
+    <p>Name: <input type="text" th:field="*{name}"/></p>
+    <p>Map:</p>
+    <div id="map"/>
+    <p><input id="location" type="text" th:field="*{geographicalLocation}"/></p>
+    <p>
+        <input type="submit" value="Create"/>
+        <input type="reset" value="Reset"/>
+    </p>
+</form>
+
+
+<h1>assignments</h1>
+<table th:each="assignment : ${assignments}">
+    <tr>
+        <td th:text="${assignment.id}">1</td>
+        <td th:text="${assignment.name}">Name ..</td>
+        <td th:text="${assignment.requester}">Requester ..</td>
+    </tr>
+</table>
+
+<script async="async" defer="defer"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLsp2PdQUYAnRohtU78NsAI6M7Kn1bESE&amp;callback=initMap"/>
+<script th:inline="text">
+    function updateMarkerPosition(latLng) {
+        document.getElementById('location').value = [
+            latLng.lat(),
+            latLng.lng()
+        ].join(', ');
+    }
+
+    function initMap() {
+        var myLatLng = new google.maps.LatLng(52.376415, 4.895517)
+        var mapOptions = {
+            zoom: 11,
+            center: myLatLng,
+            scrollwheel: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            draggable: true,
+            map: map
+        });
+
+        updateMarkerPosition(myLatLng);
+
+        google.maps.event.addListener(marker, 'drag', function () {
+            updateMarkerPosition(marker.getPosition());
+        });
+
+        google.maps.event.addListener(map, 'click', function (event) {
+            var newLatLong = event.latLng
+            updateMarkerPosition(newLatLong);
+            marker.setPosition(newLatLong)
+        });
+    }
+</script>
+</body>
+</html>

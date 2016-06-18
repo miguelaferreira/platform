@@ -7,7 +7,3 @@ info:
     name: Platform
     description: The platform
     version: ${project.version}
-
-spring:
-  thymeleaf:
-    cache: false

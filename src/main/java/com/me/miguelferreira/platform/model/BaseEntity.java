@@ -1,5 +1,8 @@
 package com.me.miguelferreira.platform.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public abstract class BaseEntity {
 
     private String id;
@@ -19,6 +22,11 @@ public abstract class BaseEntity {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }
