@@ -1,0 +1,9 @@
+info:
+  build:
+    artifact: ${project.artifactId}
+    name: ${project.name}
+    build.version: ${project.version}
+  app:
+    name: Platform
+    description: The platform
+    version: ${project.version}

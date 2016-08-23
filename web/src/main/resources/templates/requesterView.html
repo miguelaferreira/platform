@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Requester Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+</head>
+<body>
+
+<h1>Create new requester</h1>
+<form action="#" th:action="@{/requester}" th:object="${requester}" method="post">
+    <p>Name: <input type="text" th:field="*{name}"/></p>
+    <p>
+        <input type="submit" value="Create"/>
+        <input type="reset" value="Reset"/>
+    </p>
+</form>
+
+<h1>requesters</h1>
+<table th:each="requester : ${requesters}">
+    <tr>
+        <td th:text="${requester.id}">1</td>
+        <td th:text="${requester.name}">Name ..</td>
+    </tr>
+</table>
+
+</body>
+</html>

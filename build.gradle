@@ -1,0 +1,68 @@
+ext {
+    deps = [
+            commons : [lang: [version: '3.4']],
+            hamcrest: [java: [version: '2.0.0.0']],
+            junit   : [junit: [version: '4.12']],
+    ]
+}
+
+buildscript {
+    ext {
+        builddeps = [
+                spring: [boot: [version: '1.4.0.RELEASE']]
+        ]
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${builddeps.spring.boot.version}"
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.9'
+}
+
+task info {
+    println "Building ${project.group}:"
+}
+
+configure(subprojects) {
+    group = 'com.me.miguelferreira.platform'
+    version = '1.0.0-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'spring-boot'
+
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            url "http://repo.spring.io/libs-release-local"
+        }
+    }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    dependencies {
+        testCompile "org.hamcrest:java-hamcrest:${deps.hamcrest.java.version}"
+        testCompile "junit:junit:${deps.junit.junit.version}"
+    }
+
+    task info {
+        println "\t* ${project.name}:${project.version}"
+    }
+
+    bootRepackage {
+        enabled = false
+    }
+}
+
+configure(subprojects.findAll { it.name != 'utils'}) {
+    dependencies {
+        compile project(':utils')
+    }
+}
