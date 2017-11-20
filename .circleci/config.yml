@@ -33,6 +33,7 @@ jobs:
 
       - run: pwd
       - run: ls -al
+      - run: ./gradlew wrapper
       - run: ./gradlew dependencies
 
       - save_cache:
